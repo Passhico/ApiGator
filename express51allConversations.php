@@ -31,8 +31,6 @@ if ($curl_response === false) {
 }
 curl_close($ch);
 
-$f
-
 
 
 
