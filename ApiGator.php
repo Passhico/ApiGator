@@ -13,6 +13,8 @@ define('SECTION_CONVERSACIONES', "conversations");
 
 
 /**
+ * 
+ * 
  * @author Pascual Muñoz <pascual.munoz@pccomponentes.com>
  * @see https://support.ladesk.com/840770-Complete-API-reference#apiv1_agents
  * 
@@ -79,6 +81,7 @@ class ApiGator {
 	 * 
 	 */
 	public function procesaResponsecon($f = 'print_r') {
+		$f(json_decode($this->curl_response));
 		$f(json_decode($this->curl_response));
 	}
 	
