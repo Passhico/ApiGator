@@ -83,8 +83,7 @@ class ApiGator {
 	 * 
 	 */
 	public function procesaResponseCon($f = 'print_r') {
-		$f(json_decode($this->curl_response));
-		$f(json_decode($this->curl_response));
+		$f($this->curl_response);
 	}
 	
 	/**
