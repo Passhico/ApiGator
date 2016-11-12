@@ -82,7 +82,7 @@ class ApiGator {
 	 * @param function $f Donde $f es una función f( json_decode(response) )
 	 * 
 	 */
-	public function procesaResponsecon($f = 'print_r') {
+	public function procesaResponseCon($f = 'print_r') {
 		$f(json_decode($this->curl_response));
 		$f(json_decode($this->curl_response));
 	}
@@ -94,7 +94,7 @@ class ApiGator {
 	 */
 	public function procesaResponse()
 	{
-		$this->procesaResponsecon();
+		$this->procesaResponseCon();
 	}
 
 }
