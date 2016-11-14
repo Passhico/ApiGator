@@ -24,16 +24,10 @@ class ApiGator {
 	public $ch;
 	public $curl_response;
 
-
-	/* Con estas 4 tenemos que formar la URI
-	 * FORMATO de ejemplo:
-	 * http://exp.com/api/conversations?&apikey=value
-	 * se encarga generateUri()
-	 * */
-	private $url;
-	private $section;
-	private $apikey;
-	private $request_parameters;
+	/**
+	 *
+	 * @var type La uri de la api.
+	 */
 	private $uri;
 
 	/**
@@ -42,21 +36,23 @@ class ApiGator {
 	 * @param URL $url
 	 * @param string $apikey
 	 */
-	public function __construct($section = "application/status", $url = 'https://express51.ladesk.com/api/', $apikey = '&apikey=10c54076befac3d7ba249637b9ee6a31', $request_parameters = []) {
+	public function __construct($request_parameters = []) {
 
-		$this->url = $url;
-		$this->apikey = $apikey;
-		$this->section = $section;
+		
 		$this->request_parameters = $request_parameters;
 
-
-		//Generamos la URI e iniciamos curl. cargamos ch 
-		echo "Obteniendo: " . ($this->ch = curl_init($this->generateUri()) ) . PHP_EOL;
-
-		//seteamos la opción especial.
-		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
-
-		//obtenemos response .
+		
+		$process = curl_init($host);
+		curl_setopt($process, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', $additionalHeaders));
+		curl_setopt($process, CURLOPT_HEADER, 1);
+		curl_setopt($process, CURLOPT_USERPWD, $username . ":" . $password);
+		curl_setopt($process, CURLOPT_TIMEOUT, 30);
+		curl_setopt($process, CURLOPT_POST, 1);
+		curl_setopt($process, CURLOPT_POSTFIELDS, $payloadName);
+		curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
+		
+		
+		//miCurlExec() obtenemos response .
 		$this->curl_response = curl_exec($this->ch);
 		if ($this->curl_response === false) {
 			$info = curl_error($this->ch);
@@ -64,17 +60,7 @@ class ApiGator {
 		}
 	}
 
-	private function generateUri() {
 
-		$this->uri = $this->url . $this->section . '?' . $this->apikey;
-
-		foreach ($this->request_parameters as $parametro) {
-			$this->uri .= '&' . $parametro;
-		}
-
-		echo "<BR>URI: " . $this->uri;
-		return $this->uri;
-	}
 
 	public function __destruct() {
 		curl_close($this->ch);
