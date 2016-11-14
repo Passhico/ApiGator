@@ -1,11 +1,12 @@
 <?php
 
 /**
- * Crea una Conexión con curl.php a una API rest, tras ello pone a 
+ * Crea una Conexión con "curl.php" a una API REST, tras ello pone a 
  * disposición del usuario , tanto la response como un método específico
  * para procesarla según se prefiera.
+ * 
+ * 
  */
-
 namespace ApiGator;
 
 /**
@@ -31,12 +32,11 @@ class ApiGator {
 	private $uri;
 
 	/**
-	 * 
-	 * @param SeccionDeLaApi $section 
+	 *  http://stackoverflow.com/questions/2140419/how-do-i-make-a-request-using-http-basic-authentication-with-php-curl
+	 * TODO: documenta
 	 */
 	public function __construct($uri, $username, $password, $additionalHeaders = null, $payloadName = null) {
 
-		// http://stackoverflow.com/questions/2140419/how-do-i-make-a-request-using-http-basic-authentication-with-php-curl
 
 		$this->ch = curl_init($uri);
 		curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', $additionalHeaders));
@@ -83,4 +83,5 @@ class ApiGator {
 	public function procesaResponseCon($f = 'print_r') {
 		$f($this->curl_response);
 	}
+
 }
