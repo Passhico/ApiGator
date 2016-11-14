@@ -37,17 +37,18 @@ class ApiGator {
 	 * @param URL $url
 	 * @param string $apikey
 	 */
-	public function __construct() {
+	public function __construct($uri) {
 
+		// http://stackoverflow.com/questions/2140419/how-do-i-make-a-request-using-http-basic-authentication-with-php-curl
 		
-		$process = curl_init($host);
-		curl_setopt($process, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', $additionalHeaders));
-		curl_setopt($process, CURLOPT_HEADER, 1);
-		curl_setopt($process, CURLOPT_USERPWD, $username . ":" . $password);
-		curl_setopt($process, CURLOPT_TIMEOUT, 30);
-		curl_setopt($process, CURLOPT_POST, 1);
-		curl_setopt($process, CURLOPT_POSTFIELDS, $payloadName);
-		curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
+		$this->ch = curl_init($uri);
+		curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', $additionalHeaders));
+		curl_setopt($this->ch, CURLOPT_HEADER, 1);
+		curl_setopt($this->ch, CURLOPT_USERPWD, $username . ":" . $password);
+		curl_setopt($this->ch, CURLOPT_TIMEOUT, 30);
+		curl_setopt($this->ch, CURLOPT_POST, 1);
+		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payloadName);
+		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
 		
 		
 		//miCurlExec() obtenemos response .
