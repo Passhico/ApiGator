@@ -30,16 +30,14 @@ class ApiGator {
 	 */
 	private $uri;
 
+
 	/**
 	 * 
 	 * @param SeccionDeLaApi $section 
 	 * @param URL $url
 	 * @param string $apikey
 	 */
-	public function __construct($request_parameters = []) {
-
-		
-		$this->request_parameters = $request_parameters;
+	public function __construct() {
 
 		
 		$process = curl_init($host);
