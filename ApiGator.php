@@ -34,8 +34,6 @@ class ApiGator {
 	/**
 	 * 
 	 * @param SeccionDeLaApi $section 
-	 * @param URL $url
-	 * @param string $apikey
 	 */
 	public function __construct($uri) {
 
