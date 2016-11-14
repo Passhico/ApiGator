@@ -30,15 +30,14 @@ class ApiGator {
 	 */
 	private $uri;
 
-
 	/**
 	 * 
 	 * @param SeccionDeLaApi $section 
 	 */
-	public function __construct($uri) {
+	public function __construct($uri, $username, $password, $additionalHeaders = null, $payloadName = null) {
 
 		// http://stackoverflow.com/questions/2140419/how-do-i-make-a-request-using-http-basic-authentication-with-php-curl
-		
+
 		$this->ch = curl_init($uri);
 		curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', $additionalHeaders));
 		curl_setopt($this->ch, CURLOPT_HEADER, 1);
@@ -47,8 +46,8 @@ class ApiGator {
 		curl_setopt($this->ch, CURLOPT_POST, 1);
 		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payloadName);
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
-		
-		
+
+
 		//miCurlExec() obtenemos response .
 		$this->curl_response = curl_exec($this->ch);
 		if ($this->curl_response === false) {
@@ -57,28 +56,31 @@ class ApiGator {
 		}
 	}
 
-
-
 	public function __destruct() {
 		curl_close($this->ch);
 	}
 
+	public function miCurlInit() {
+		
+	}
+
 	/**
-	 * 
-	 * @param function $f Donde $f es una función f( json_decode(response) )
-	 * 
+	 * Es una closure, para el procesado externo del json.
+	 * Por supuesto , no hace falta usar esta tecnica y es posible usar 
+	 * directamente el $this->curl_response si se prefiere.
+	 * Ejemplo:
+	 * 	  		$funcionDumpDeSymfony = function ($json) {
+	 * 			//transformamos el json en un Array.
+	 * 			$arr = json_decode($json, true);
+	 * 			//si tenemos response que el array apunte a ella.
+	 * 			$arr = $arr['response'] ? $arr['response'] : $arr;
+	 *
+	 * 		return new Response(dump($arr));
+	 * 	};
+	 * @param function $f Donde $f es una función que se encarga de procesar
+	 * el json como el pamametro que recibe.
 	 */
 	public function procesaResponseCon($f = 'print_r') {
 		$f($this->curl_response);
 	}
-
-	/**
-	 * Es solo un alias de procesaResponseCon()
-	 * para tener una salida directa a terminal 
-	 * por defecto.
-	 */
-	public function procesaResponse() {
-		$this->procesaResponseCon();
-	}
-
 }
