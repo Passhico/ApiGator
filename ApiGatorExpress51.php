@@ -21,8 +21,8 @@ class ApiGator {
 	 * @var resource
 	 * @see http://php.net/manual/es/resource.php
 	 */
-	public $ch;
-	public $curl_response;
+	public $Ch;
+	public $CurlResponse;
 
 
 	/* Con estas 4 tenemos que formar la URI

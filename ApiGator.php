@@ -11,49 +11,55 @@ namespace ApiGator;
  * @see http://stackoverflow.com/questions/2140419/how-do-i-make-a-request-using-http-basic-authentication-with-php-curl
  */
 class ApiGator {
-
+	
 	/**
 	 * @var resource
 	 * @see http://php.net/manual/es/resource.php
 	 */
-	public $ch;
-	public $curl_response;
+	public $Ch;
+	public $CurlResponse;
 
 	/**
 	 *
 	 * @var type La uri de la api.
 	 */
-	private $uri;
+	private $Uri;
+	private $Username;
+	private $password; 
+	private	$additionalHeaders;
+	private	$payloadName;
+	//todo private $ApplicationType;  
 
 	/**
 	 * 
 	 * TODO: documenta
 	 */
-	public function __construct($uri, $username, $password, $additionalHeaders = null, $payloadName = null) {
+	public function __construct($uri, $username, $password, $additionalHeaders =null, $payloadName = null) {
 
-
-		$this->ch = curl_init($uri);
-		curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', $additionalHeaders));
-		curl_setopt($this->ch, CURLOPT_HEADER, 1);
-		curl_setopt($this->ch, CURLOPT_USERPWD, $username . ":" . $password);
-		curl_setopt($this->ch, CURLOPT_TIMEOUT, 30);
-		curl_setopt($this->ch, CURLOPT_POST, 1);
-		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payloadName);
-		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
+	
+		$this->Ch = curl_init($uri);
+		curl_setopt($this->Ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', $additionalHeaders));
+		curl_setopt($this->Ch, CURLOPT_HEADER, 1);
+		curl_setopt($this->Ch, CURLOPT_USERPWD, $username . ":" . $password);
+		curl_setopt($this->Ch, CURLOPT_TIMEOUT, 30);
+		curl_setopt($this->Ch, CURLOPT_POST, 1);
+		curl_setopt($this->Ch, CURLOPT_POSTFIELDS, $payloadName);
+		curl_setopt($this->Ch, CURLOPT_RETURNTRANSFER, TRUE);
 
 		//miCurlExec() obtenemos response .
-		$this->curl_response = curl_exec($this->ch);
-		if ($this->curl_response === false) {
-			$info = curl_error($this->ch);
-			curl_close($this->ch) && die("Error en curl_exec(): " . var_export($info));
+		$this->CurlResponse = curl_exec($this->Ch);
+		if ($this->CurlResponse === false) {
+			$info = curl_error($this->Ch);
+			curl_close($this->Ch) && die("Error en curl_exec(): " . var_export($info));
 		}
 	}
 
 	public function __destruct() {
-		curl_close($this->ch);
+		curl_close($this->Ch);
 	}
 
 	public function miCurlInit() {
+	
 		
 	}
 
@@ -74,7 +80,7 @@ class ApiGator {
 	 * el json como el pamametro que recibe.
 	 */
 	public function procesaResponseCon($f = 'print_r') {
-		$f($this->curl_response);
+		$f($this->CurlResponse);
 	}
 
 }
