@@ -94,16 +94,21 @@ class ApiGator {
 	 * 
 	 * TODO: documenta
 	 */
-	public function __construct($uri, $username, $password, $additionalHeaders =null, $payloadName = null) {
+	public function __construct($uri) {
 
 		
-	
+		//para depuracion. 
+		echo '$uri: ' . $uri . '<br>'; 
+				echo '$additionalHeaders: ' . var_dump($additionalHeaders) . '<br>';  
+		echo '$payloadName: ' . $payloadName  . '<br>';  
+		
+		
 		$this->Ch = curl_init($uri);
-		curl_setopt($this->Ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', $additionalHeaders));
-		curl_setopt($this->Ch, CURLOPT_HEADER, 1);
-		curl_setopt($this->Ch, CURLOPT_USERPWD, $username . ":" . $password);
+		curl_setopt($this->Ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-length: 0')); //http://stackoverflow.com/questions/12331224/how-to-include-authorization-header-in-curl-post-http-request-in-php
+		curl_setopt($this->Ch, CURLOPT_HEADER, true);
+		//curl_setopt($this->Ch, CURLOPT_USERPWD, $username . ":" . $password);
 		curl_setopt($this->Ch, CURLOPT_TIMEOUT, 30);
-		curl_setopt($this->Ch, CURLOPT_POST, 1);
+		curl_setopt($this->Ch, CURLOPT_POST, true);
 		curl_setopt($this->Ch, CURLOPT_POSTFIELDS, $payloadName);
 		curl_setopt($this->Ch, CURLOPT_RETURNTRANSFER, TRUE);
 
