@@ -1,20 +1,14 @@
 <?php
 
+
+namespace ApiGator;
+
 /**
  * Crea una Conexión con "curl.php" a una API REST, tras ello pone a 
  * disposición del usuario , tanto la response como un método específico
  * para procesarla según se prefiera.
  * 
- * 
- */
-namespace ApiGator;
-
-/**
- * 
- * 
- * @author Pascual Muñoz <pascual.munoz@pccomponentes.com>
- * @see https://support.ladesk.com/840770-Complete-API-reference#apiv1_agents
- * 
+ * @see http://stackoverflow.com/questions/2140419/how-do-i-make-a-request-using-http-basic-authentication-with-php-curl
  */
 class ApiGator {
 
@@ -32,7 +26,7 @@ class ApiGator {
 	private $uri;
 
 	/**
-	 *  http://stackoverflow.com/questions/2140419/how-do-i-make-a-request-using-http-basic-authentication-with-php-curl
+	 * 
 	 * TODO: documenta
 	 */
 	public function __construct($uri, $username, $password, $additionalHeaders = null, $payloadName = null) {
@@ -46,7 +40,6 @@ class ApiGator {
 		curl_setopt($this->ch, CURLOPT_POST, 1);
 		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payloadName);
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
-
 
 		//miCurlExec() obtenemos response .
 		$this->curl_response = curl_exec($this->ch);
