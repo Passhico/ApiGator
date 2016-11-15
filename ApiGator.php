@@ -25,9 +25,69 @@ class ApiGator {
 	 */
 	private $Uri;
 	private $Username;
-	private $password; 
-	private	$additionalHeaders;
-	private	$payloadName;
+	private $Password; 
+	private	$AdditionalHeaders;
+	private	$PayloadName;
+	
+	public function getCh() {
+		return $this->Ch;
+	}
+	public function getCurlResponse() {
+		return $this->CurlResponse;
+	}
+
+	public function getUri() {
+		return $this->Uri;
+	}
+
+	public function getUsername() {
+		return $this->Username;
+	}
+
+	public function getPassword() {
+		return $this->password;
+	}
+
+	public function getAdditionalHeaders() {
+		return $this->additionalHeaders;
+	}
+
+	public function getPayloadName() {
+		return $this->payloadName;
+	}
+
+	public function setCh($Ch) {
+		$this->Ch = $Ch;
+		return $this;
+	}
+
+	
+	public function setUri(type $Uri) {
+		$this->Uri = $Uri;
+		return $this;
+	}
+
+	public function setUsername($Username) {
+		$this->Username = $Username;
+		return $this;
+	}
+
+	public function setPassword($password) {
+		$this->password = $password;
+		return $this;
+	}
+
+	public function setAdditionalHeaders($additionalHeaders) {
+		$this->additionalHeaders = $additionalHeaders;
+		return $this;
+	}
+
+	public function setPayloadName($payloadName) {
+		$this->payloadName = $payloadName;
+		return $this;
+	}
+
+		
 	//todo private $ApplicationType;  
 
 	/**
@@ -36,6 +96,7 @@ class ApiGator {
 	 */
 	public function __construct($uri, $username, $password, $additionalHeaders =null, $payloadName = null) {
 
+		
 	
 		$this->Ch = curl_init($uri);
 		curl_setopt($this->Ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', $additionalHeaders));
