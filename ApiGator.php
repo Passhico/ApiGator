@@ -16,8 +16,8 @@ class ApiGator {
 	 * @var resource
 	 * @see http://php.net/manual/es/resource.php
 	 */
-	public $Ch;
-	public $CurlResponse;
+	private $Ch;
+	private $CurlResponse;
 
 	/**
 	 *
