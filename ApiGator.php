@@ -99,17 +99,24 @@ class ApiGator {
 		
 		//para depuracion. 
 		echo '$uri: ' . $uri . '<br>'; 
-				echo '$additionalHeaders: ' . var_dump($additionalHeaders) . '<br>';  
-		echo '$payloadName: ' . $payloadName  . '<br>';  
+
+		$header[] = "Accept: application/json";
+		$header[] = 'Content-Type: application/json';
+		$header[] = 'Content-length: 0';
+		$header[] = 'Authorization: ebec63f521baf484da13a550a111e5d6';
 		
-		
+				echo '$uri: ' . var_dump($header) . '<br>'; 
+	
 		$this->Ch = curl_init($uri);
-		curl_setopt($this->Ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-length: 0')); //http://stackoverflow.com/questions/12331224/how-to-include-authorization-header-in-curl-post-http-request-in-php
-		curl_setopt($this->Ch, CURLOPT_HEADER, true);
+		curl_setopt($this->Ch, CURLOPT_HTTPHEADER, $header); 
+		curl_setopt($this->Ch, CURLOPT_HEADER, 0); //no queremos el header en la response.
 		//curl_setopt($this->Ch, CURLOPT_USERPWD, $username . ":" . $password);
 		curl_setopt($this->Ch, CURLOPT_TIMEOUT, 30);
+		
+		curl_setopt($this->Ch, CURLOPT_CUSTOMREQUEST, "GET");
+		
 		curl_setopt($this->Ch, CURLOPT_POST, true);
-		curl_setopt($this->Ch, CURLOPT_POSTFIELDS, $payloadName);
+		curl_setopt($this->Ch, CURLOPT_POSTFIELDS, 'Authorization: ebec63f521baf484da13a550a111e5d6');
 		curl_setopt($this->Ch, CURLOPT_RETURNTRANSFER, TRUE);
 
 		//miCurlExec() obtenemos response .
