@@ -11,32 +11,75 @@ namespace ApiGator;
  * @see http://stackoverflow.com/questions/2140419/how-do-i-make-a-request-using-http-basic-authentication-with-php-curl
  */
 class ApiGator {
-	
+
+
+
 	/**
+	 * El resource que devuelve El curl_init(uri) 
+	 * 
 	 * @var resource
 	 * @see http://php.net/manual/es/resource.php
 	 */
 	private $Ch;
+	
+	
+	/**
+	 * Lo que nos devuelve Curl cuando le hacemos
+	 * curl_exec()
+	 * @var json http_response mixed $CurlResponse
+	 */
 	private $CurlResponse;
 
 	/**
-	 *
+	 * URI ... GUELERRRRRRRR.
 	 * @var type La uri de la api.
 	 */
 	private $Uri;
+	
+	/**
+	 * Headers personalizadas de las Request . 
+	 * @var array('key : value') Con las http headers oficiales.
+	 */
+	private $HttpHeader;
+	
+	/**
+	 * Por ahora ni se ha usado . Las autentificaciones o las he hecho
+	 * en la Uri concatenando un API token , o en el header. 
+	 * las dejo por si alguna vez hacen falta.
+	 * 
+	 * @var string 
+	 */
 	private $Username;
+	
+	
+	/**
+	 * Por ahora ni se ha usado . Las autentificaciones o las he hecho
+	 * en la Uri concatenando un API token , o en el header. 
+	 * las dejo por si alguna vez hacen falta.
+	 * 
+	 * @var string 
+	 */
 	private $Password; 
-	private	$AdditionalHeaders;
-	private	$PayloadName;
+
 	
 	public function getCh() {
 		return $this->Ch;
 	}
+	
+	/**
+	 * Ejecuta curl_exec y devuelve la response.
+	 * @return CurlResponse
+	 */
 	public function getCurlResponse() {
-		return $this->CurlResponse;
+		return $this->curlEXEC();
 	}
 
 	public function getUri() {
+		return $this->Uri;
+	}
+	public function setUri($uri) {
+		$this->curlINIT($uri);
+		$this->curlSETOPTS();
 		return $this->Uri;
 	}
 
@@ -45,96 +88,55 @@ class ApiGator {
 	}
 
 	public function getPassword() {
-		return $this->password;
+		return $this->Password;
 	}
 
-	public function getAdditionalHeaders() {
-		return $this->additionalHeaders;
-	}
-
-	public function getPayloadName() {
-		return $this->payloadName;
-	}
-
-	public function setCh($Ch) {
-		$this->Ch = $Ch;
-		return $this;
-	}
-
-	
-	public function setUri(type $Uri) {
-		$this->Uri = $Uri;
-		return $this;
-	}
-
-	public function setUsername($Username) {
-		$this->Username = $Username;
-		return $this;
-	}
-
-	public function setPassword($password) {
-		$this->password = $password;
-		return $this;
-	}
-
-	public function setAdditionalHeaders($additionalHeaders) {
-		$this->additionalHeaders = $additionalHeaders;
-		return $this;
-	}
-
-	public function setPayloadName($payloadName) {
-		$this->payloadName = $payloadName;
-		return $this;
-	}
-
-		
-	//todo private $ApplicationType;  
 
 	/**
 	 * 
 	 * TODO: documenta
 	 */
-	public function __construct($uri) {
-
+	public function __construct($uri, $HttpCustomHeaders = null) {
+		$this->Uri = $uri;
+		$this->HttpHeader = $HttpCustomHeaders;
 		
-		//para depuracion. 
-		echo '$uri: ' . $uri . '<br>'; 
-
-		$header[] = "Accept: application/json";
-		$header[] = 'Content-Type: application/json';
-		$header[] = 'Content-length: 0';
-		$header[] = 'Authorization: ebec63f521baf484da13a550a111e5d6';
-		
-				echo '$uri: ' . var_dump($header) . '<br>'; 
+		$this->curlINIT($this->Uri);
+		$this->curlSETOPTS();
+	}
 	
-		$this->Ch = curl_init($uri);
-		curl_setopt($this->Ch, CURLOPT_HTTPHEADER, $header); 
+	private function curlINIT($uri){
+		$this->Ch = curl_init( $uri );
+		return $this->Ch;
+	}
+	
+	private function curlSETOPTS(){
+		curl_setopt($this->Ch, CURLOPT_HTTPHEADER, $this->HttpHeader); 
 		curl_setopt($this->Ch, CURLOPT_HEADER, 0); //no queremos el header en la response.
 		//curl_setopt($this->Ch, CURLOPT_USERPWD, $username . ":" . $password);
 		curl_setopt($this->Ch, CURLOPT_TIMEOUT, 30);
 		
-		curl_setopt($this->Ch, CURLOPT_CUSTOMREQUEST, "GET");
+		curl_setopt($this->Ch, CURLOPT_CUSTOMREQUEST, "GET");//gracias stackoverflow
 		
 		curl_setopt($this->Ch, CURLOPT_POST, true);
 		curl_setopt($this->Ch, CURLOPT_POSTFIELDS, 'Authorization: ebec63f521baf484da13a550a111e5d6');
 		curl_setopt($this->Ch, CURLOPT_RETURNTRANSFER, TRUE);
-
-		//miCurlExec() obtenemos response .
+	}
+	
+	private function curlEXEC()
+	{
+		//miCurlExec() obtenemos response la dejamos cargada
 		$this->CurlResponse = curl_exec($this->Ch);
 		if ($this->CurlResponse === false) {
 			$info = curl_error($this->Ch);
 			curl_close($this->Ch) && die("Error en curl_exec(): " . var_export($info));
 		}
+		return $this->CurlResponse;
 	}
-
 	public function __destruct() {
 		curl_close($this->Ch);
 	}
 
-	public function miCurlInit() {
-	
-		
-	}
+
 
 	/**
 	 * Es una closure, para el procesado externo del json.
@@ -153,7 +155,7 @@ class ApiGator {
 	 * el json como el pamametro que recibe.
 	 */
 	public function procesaResponseCon($f = 'print_r') {
-		$f($this->CurlResponse);
+		$f($this->CurlResponse = $this->curlEXEC());
 	}
 
 }
