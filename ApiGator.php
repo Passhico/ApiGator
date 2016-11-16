@@ -61,7 +61,12 @@ class ApiGator {
 	 */
 	private $Password; 
 
-	
+	/**
+	 * El resource que devuelve El curl_init(uri) 
+	 * 
+	 * @var resource
+	 * @see http://php.net/manual/es/resource.php
+	 */
 	public function getCh() {
 		return $this->Ch;
 	}
@@ -118,7 +123,8 @@ class ApiGator {
 		curl_setopt($this->Ch, CURLOPT_CUSTOMREQUEST, "GET");//gracias stackoverflow
 		
 		curl_setopt($this->Ch, CURLOPT_POST, true);
-		curl_setopt($this->Ch, CURLOPT_POSTFIELDS, 'Authorization: ebec63f521baf484da13a550a111e5d6');
+	//todo: parametrizame (payload)
+	//  curl_setopt($this->Ch, CURLOPT_POSTFIELDS, 'key: value'); payload
 		curl_setopt($this->Ch, CURLOPT_RETURNTRANSFER, TRUE);
 	}
 	
