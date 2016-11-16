@@ -1,6 +1,5 @@
 <?php
 
-
 namespace ApiGator;
 
 /**
@@ -12,8 +11,6 @@ namespace ApiGator;
  */
 class ApiGator {
 
-
-
 	/**
 	 * El resource que devuelve El curl_init(uri) 
 	 * 
@@ -21,8 +18,7 @@ class ApiGator {
 	 * @see http://php.net/manual/es/resource.php
 	 */
 	private $Ch;
-	
-	
+
 	/**
 	 * Lo que nos devuelve Curl cuando le hacemos
 	 * curl_exec()
@@ -31,17 +27,18 @@ class ApiGator {
 	private $CurlResponse;
 
 	/**
-	 * URI ... GUELERRRRRRRR.
+	 * URI GUELERRRRRRRR.
 	 * @var type La uri de la api.
+	 * @see https://www.youtube.com/watch?v=VOakvXIVUvo 
 	 */
 	private $Uri;
-	
+
 	/**
 	 * Headers personalizadas de las Request . 
 	 * @var array('key : value') Con las http headers oficiales.
 	 */
 	private $HttpHeader;
-	
+
 	/**
 	 * Por ahora ni se ha usado . Las autentificaciones o las he hecho
 	 * en la Uri concatenando un API token , o en el header. 
@@ -50,8 +47,7 @@ class ApiGator {
 	 * @var string 
 	 */
 	private $Username;
-	
-	
+
 	/**
 	 * Por ahora ni se ha usado . Las autentificaciones o las he hecho
 	 * en la Uri concatenando un API token , o en el header. 
@@ -59,7 +55,7 @@ class ApiGator {
 	 * 
 	 * @var string 
 	 */
-	private $Password; 
+	private $Password;
 
 	/**
 	 * El resource que devuelve El curl_init(uri) 
@@ -70,7 +66,7 @@ class ApiGator {
 	public function getCh() {
 		return $this->Ch;
 	}
-	
+
 	/**
 	 * Ejecuta curl_exec y devuelve la response.
 	 * @return CurlResponse o directamente muere.
@@ -83,6 +79,7 @@ class ApiGator {
 	public function getUri() {
 		return $this->Uri;
 	}
+
 	public function setUri($uri) {
 		$this->curlINIT($uri);
 		$this->curlSETOPTS();
@@ -97,7 +94,6 @@ class ApiGator {
 		return $this->Password;
 	}
 
-
 	/**
 	 * 
 	 * TODO: documenta
@@ -105,46 +101,52 @@ class ApiGator {
 	public function __construct($uri, $HttpCustomHeaders = null) {
 		$this->Uri = $uri;
 		$this->HttpHeader = $HttpCustomHeaders;
-		
+
 		$this->curlINIT($this->Uri);
 		$this->curlSETOPTS();
 	}
-	
-	private function curlINIT($uri){
-		$this->Ch = curl_init( $uri );
+
+	private function curlINIT($uri) {
+		$this->Ch = curl_init($uri);
 		return $this->Ch;
 	}
-	
-	private function curlSETOPTS(){
-		curl_setopt($this->Ch, CURLOPT_HTTPHEADER, $this->HttpHeader); 
+
+	private function curlSETOPTS() {
+		curl_setopt($this->Ch, CURLOPT_HTTPHEADER, $this->HttpHeader);
 		curl_setopt($this->Ch, CURLOPT_HEADER, 0); //no queremos el header en la response.
 		//curl_setopt($this->Ch, CURLOPT_USERPWD, $username . ":" . $password);
-		curl_setopt($this->Ch, CURLOPT_TIMEOUT, 30);
-		
-		curl_setopt($this->Ch, CURLOPT_CUSTOMREQUEST, "GET");//gracias stackoverflow
-		
+		curl_setopt($this->Ch, CURLOPT_TIMEOUT, 50);
+
+		curl_setopt($this->Ch, CURLOPT_CUSTOMREQUEST, "GET"); //gracias stackoverflow
+
 		curl_setopt($this->Ch, CURLOPT_POST, true);
-	//todo: parametrizame (payload)
-	//  curl_setopt($this->Ch, CURLOPT_POSTFIELDS, 'key: value'); payload
+		//todo: parametrizame (payload)
+		//  curl_setopt($this->Ch, CURLOPT_POSTFIELDS, 'key: value'); payload
 		curl_setopt($this->Ch, CURLOPT_RETURNTRANSFER, TRUE);
 	}
-	
-	private function curlEXEC()
-	{
+
+	private function curlEXEC() {
 		//miCurlExec() obtenemos response la dejamos cargada
 		$this->CurlResponse = curl_exec($this->Ch);
-		
+
 		if ($this->CurlResponse === false) {
 			$info = curl_error($this->Ch);
 			curl_close($this->Ch) && die("Error en curl_exec(): " . var_export($info));
 		}
 		return $this->CurlResponse;
 	}
+
 	public function __destruct() {
-		curl_close($this->Ch);
+		if ($this->Ch !== NULL) {
+			try {
+				curl_close($this->Ch);
+			} catch (ContextErrorException $e) {
+				echo "Apigator no puede Cerrar el Resource de Curl"; 
+			}
+		} else {
+			Echo "El Resource de Curl no existe!! así que no hay nada que cerrar"; 
+		}
 	}
-
-
 
 	/**
 	 * Es una closure, para el procesado externo del json.
