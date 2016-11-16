@@ -73,7 +73,8 @@ class ApiGator {
 	
 	/**
 	 * Ejecuta curl_exec y devuelve la response.
-	 * @return CurlResponse
+	 * @return CurlResponse o directamente muere.
+	 * 
 	 */
 	public function getCurlResponse() {
 		return $this->curlEXEC();
@@ -132,6 +133,7 @@ class ApiGator {
 	{
 		//miCurlExec() obtenemos response la dejamos cargada
 		$this->CurlResponse = curl_exec($this->Ch);
+		
 		if ($this->CurlResponse === false) {
 			$info = curl_error($this->Ch);
 			curl_close($this->Ch) && die("Error en curl_exec(): " . var_export($info));
