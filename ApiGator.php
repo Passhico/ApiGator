@@ -35,9 +35,10 @@ class ApiGator {
 
 	/**
 	 * Headers personalizadas de las Request . 
-	 * @var array('key : value') Con las http headers oficiales.
+	 * @var array Con las http headers oficiales.
 	 */
 	private $HttpHeader;
+	
 
 	/**
 	 * Por ahora ni se ha usado . Las autentificaciones o las he hecho
@@ -57,6 +58,24 @@ class ApiGator {
 	 */
 	private $Password;
 
+	public function setHttpHeader($HttpHeader) {
+		$this->HttpHeader = $HttpHeader;
+		$this->curlSETOPTS; 
+		return $this;
+	}
+
+	public function setUsername($Username) {
+		$this->Username = $Username;
+		return $this;
+	}
+
+	public function setPassword($Password) {
+		$this->Password = $Password;
+		return $this;
+	}
+
+	
+	
 	/**
 	 * El resource que devuelve El curl_init(uri) 
 	 * 
@@ -83,7 +102,7 @@ class ApiGator {
 	public function setUri($uri) {
 		$this->curlINIT($uri);
 		$this->curlSETOPTS();
-		return $this->Uri;
+		return $this;
 	}
 
 	public function getUsername() {
@@ -167,5 +186,7 @@ class ApiGator {
 	public function procesaResponseCon($f = 'print_r') {
 		$f($this->CurlResponse = $this->curlEXEC());
 	}
+
+
 
 }
