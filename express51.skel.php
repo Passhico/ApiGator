@@ -1,8 +1,8 @@
 <?php
 
-include 'ApiGator.php';
+include '/ApiGatorExpress51.php';
 
-use ApiGator\ApiGator;
+use ApiGator\ApiGato;
 
 
 /* TODO: Preparamos la closure(http://php.net/manual/es/functions.anonymous.php)
