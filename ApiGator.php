@@ -92,7 +92,11 @@ class ApiGator {
 	 * 
 	 */
 	public function getCurlResponse() {
-		return $this->curlEXEC();
+		//TODO: VERIFICAR QUE LA URI ESTA PUESTA SI NO TRHOW
+		if (isset($this->Uri)) {
+			return $this->curlEXEC();
+		}
+		
 	}
 
 	public function getUri() {
