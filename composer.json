@@ -1,0 +1,13 @@
+{
+    "name": "passh/api-gator",
+    "description": "Encapsula peticiones Api Rest con CURL",
+    "require": {
+        "monolog/monolog": "^1.22"
+    },
+    "authors": [
+        {
+            "name": "Pascual Muñoz Galián",
+            "email": "pascual.munoz@pccomponentes.com"
+        }
+    ]
+}
