@@ -164,9 +164,11 @@ class ApiGator {
 			try {
 				curl_close($this->Ch);
 			} catch (ContextErrorException $e) {
+				//todo: quitar echo
 				echo "Apigator no puede Cerrar el Resource de Curl"; 
 			}
 		} else {
+			//todo:quitar echo
 			Echo "El Resource de Curl no existe!! así que no hay nada que cerrar"; 
 		}
 	}
