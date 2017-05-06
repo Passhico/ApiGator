@@ -3,13 +3,13 @@
 namespace ApiGator;
 
 /**
- * Crea una Conexión con "curl.php" a una API REST, tras ello pone a 
- * disposición del usuario , tanto la response como un método específico
+ * Abstrae una Conexión con "curl.php" a una API REST,
+ *  tras ello pone a disposición del usuario , tanto la response como un método específico
  * para procesarla según se prefiera.
  * 
  * @see http://stackoverflow.com/questions/2140419/how-do-i-make-a-request-using-http-basic-authentication-with-php-curl
  */
-class ApiGator {
+abstract class ApiGator {
 
 	/**
 	 * El resource que devuelve El curl_init(uri) 
