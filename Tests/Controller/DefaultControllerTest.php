@@ -1,6 +1,6 @@
 <?php
 
-namespace pascual\ApigatorBundle\Tests\Controller;
+namespace pcc\ApigatorBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

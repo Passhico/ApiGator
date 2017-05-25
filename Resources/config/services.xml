@@ -6,16 +6,11 @@
 
     <!--
     <services>
-        <service id="pascual_apigator.example" class="pascual\ApigatorBundle\Example">
+        <service id="pcc_apigator.example" class="pcc\ApigatorBundle\Example">
             <argument type="service" id="service_id" />
             <argument>plain_value</argument>
             <argument>%parameter_name%</argument>
         </service>
     </services>
     -->
-    <services>
-        <service class="ApiGator\ApiGator" id="api_gator.api_gator">
-        </service>
-
-    </services>
 </container>
