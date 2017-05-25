@@ -118,10 +118,10 @@ class ApiGator {
 	}
 
 	/**
-	 * 
-	 * TODO: documenta
+	 * Initializes the Apigator , an encapsulation of CURL client 4 extract data of an Api
+     * Gigen a $uri we get a Response from the server returns the raw Response from the server.
 	 */
-	public function __construct($uri, $HttpCustomHeaders = null) {
+	public function __construct($uri = null , $HttpCustomHeaders = null) {
 		$this->Uri = $uri;
 		$this->HttpHeader = $HttpCustomHeaders;
 

@@ -9,6 +9,8 @@
 namespace pascual\HttpBundle;
 
 
+use ApiGator\ApiGator;
+
 class Client
 {
     private $apigator;
@@ -16,7 +18,7 @@ class Client
 
     function __construct()
     {
-        $this->apigator = new Apigator;
+        $this->apigator = new ApiGator();
     }
 
     public function get($uri)
