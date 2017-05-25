@@ -13,4 +13,9 @@
         </service>
     </services>
     -->
+    <services>
+        <service class="ApiGator\ApiGator" id="api_gator.api_gator">
+        </service>
+
+    </services>
 </container>
