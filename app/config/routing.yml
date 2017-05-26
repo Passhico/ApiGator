@@ -1,0 +1,7 @@
+pcc_apigator:
+    resource: "@pccApigatorBundle/Resources/config/routing.xml"
+    prefix:   /apigator
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
