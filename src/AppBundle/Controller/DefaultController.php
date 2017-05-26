@@ -21,12 +21,13 @@ class DefaultController extends Controller
         return $this->redirectToRoute('pcc_apigator_testpage');
     }
 
-    public function testApigatorServiceAction()
+    public function testApigatorServiceAction(Request $request, $ciudad)
     {
         $APIKEY = '18a7c380835ade989f795f3298ab2b09';
         $ciudad = 'Murcia';
 
-        $URI = 'api.openweathermap.org/data/2.5/weather?q=Murcia,es&APPID='.$APIKEY;
+        //uri posicional.
+        $URI = "api.openweathermap.org/data/2.5/weather?q={$ciudad},es&APPID={$APIKEY}";
 
 
         dump($this->get('pcc_apigator.apigator'));//antes de la llamada.
