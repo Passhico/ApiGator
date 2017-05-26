@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -15,16 +16,17 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $this->testApigatorServiceAction();
-        die();
         //testeo del apigator
-        return $this->redirectToRoute('pcc_apigator_testpage');
+        return $this->redirectToRoute('weather_test');
     }
 
-    public function testApigatorServiceAction(Request $request, $ciudad)
+    /**
+     * @Route("/test", name="weather_test")
+     * @param string $ciudad
+     */
+    public function testApigatorServiceAction(Request $request, $ciudad = 'Murcia')
     {
         $APIKEY = '18a7c380835ade989f795f3298ab2b09';
-        $ciudad = 'Murcia';
 
         //uri posicional.
         $URI = "api.openweathermap.org/data/2.5/weather?q={$ciudad},es&APPID={$APIKEY}";
@@ -36,6 +38,10 @@ class DefaultController extends Controller
         dump($this->get('pcc_apigator.apigator')->setCurrentUri($URI)->getArrayResponse());    //default.
 
         dump($this->get('pcc_apigator.apigator'));//tras la llamada.
+
+        //de lo que va el curso:
+        dump(self::get('service_container'));
+        die();
 
     }
 }
