@@ -15,6 +15,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        //testeo del apigator
         return $this->redirectToRoute('pcc_apigator_testpage');
     }
 }
