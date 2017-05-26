@@ -29,12 +29,10 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('apigator')
                     ->children()
                         ->scalarNode('APIKEY')->end()
-                        ->booleanNode('debug')->end()
+                        ->booleanNode('URL')->end()
                     ->end()
                 ->end()
             ->end();
-
-
 
         return $treeBuilder;
     }
