@@ -15,6 +15,24 @@ use Symfony\Component\Config\Definition\Exception\Exception;
     class ApiGator {
 
         /**
+         * ApiGator constructor.
+         *
+         * @param null $uri
+         * @param null $httpCustomHeaders
+         */
+        public function __construct($uri = null , $httpCustomHeaders = null) {
+            $this->setCurrentUri($uri);
+            if(isset($httpCustomHeaders)){
+                $this->httpHeader = $httpCustomHeaders;
+            } else {
+                $this->httpHeader = $this->getDefaultHeaders();
+            }
+
+            $this->curlINIT($this->currentUri);
+            $this->curlSETOPTS();
+        }
+
+        /**
          * El resource que devuelve El curl_init(uri)
          *
          * @var resource
@@ -120,23 +138,6 @@ use Symfony\Component\Config\Definition\Exception\Exception;
             return $this->Password;
         }
 
-        /**
-         * ApiGator constructor.
-         *
-         * @param null $uri
-         * @param null $httpCustomHeaders
-         */
-        public function __construct($uri = null , $httpCustomHeaders = null) {
-            $this->setCurrentUri($uri);
-            if(isset($httpCustomHeaders)){
-                $this->httpHeader = $httpCustomHeaders;
-            } else {
-                $this->httpHeader = $this->getDefaultHeaders();
-            }
-
-            $this->curlINIT($this->currentUri);
-            $this->curlSETOPTS();
-        }
 
         public  function getDefaultHeaders()
         {
