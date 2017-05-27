@@ -8,7 +8,12 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-
-        return $this->render('pccWebBundle:Default:index.html.twig');
+        $temperatura  = 22;
+        $ciudad = 'Furcia';
+        return $this->render('pccWebBundle:Default:index.html.twig',[
+                'ciudad' => $ciudad,
+                'temperatura' => $temperatura,
+            ]
+            );
     }
 }
