@@ -352,3 +352,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+.phpcomplete_extended/
+var/
