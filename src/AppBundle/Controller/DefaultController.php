@@ -32,11 +32,9 @@ class DefaultController extends Controller
 
         //uri posicional.
         $URI = "api.openweathermap.org/data/2.5/weather?q={$ciudad},es&APPID={$APIKEY}";
-
-
         dump("enviando Request URI: {$URI}");
 
-        dump($this->get('pcc_apigator.apigator'));//antes de la llamada.
+        dump($this->get('pcc_apigator.apigator'));//antes de la llamada
 
         $this->get('pcc_apigator.apigator')->setCurrentUri($URI)->procesaResponseCon('dump');//elegant.
         dump($arrResponse = $this->get('pcc_apigator.apigator')->setCurrentUri($URI)->getArrayResponse());    //default.

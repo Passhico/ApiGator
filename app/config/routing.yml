@@ -1,3 +1,11 @@
+pcc_web:
+    resource: "@pccWebBundle/Resources/config/routing.xml"
+    prefix:   /
+
+pcc_weather:
+    resource: "@pccWeatherBundle/Resources/config/routing.xml"
+    prefix:   /weather
+
 pcc_apigator:
     resource: "@pccApigatorBundle/Resources/config/routing.xml"
     prefix:   /apigator
