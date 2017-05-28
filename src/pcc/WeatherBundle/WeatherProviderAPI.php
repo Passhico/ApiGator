@@ -26,18 +26,24 @@ class WeatherProviderAPI extends Controller implements WeatherProviderInterface
     {
         if (null === $APIKEI)
         {
-            $this->APIKEI = self::APIKEY;
+            $this->apiKey = self::APIKEY;
         }
         $this->apigator = $apigator;
     }
 
     public function getMeasuresBycity($ciudad = 'Alhama de Murcia')
     {
-        $APIKEY = self::APIKEY;
+
         //uri posicional.
-        $URI = "api.openweathermap.org/data/2.5/weather?q={$ciudad},es&APPID={$APIKEY}";
+        // $URI = "api.openweathermap.org/data/2.5/weather?q={$ciudad},es&APPID={$this->apiKey}";
+
+        $uribuilder = new OpenWeatherMapUriBuilder();
+        $URI = $uribuilder->setApikey($this->apiKey)->setCiudad('Librilla')->getUri();
+
+
+
        // $this->apigator->setCurrentUri($URI)->procesaResponseCon('dump');//elegant.
-        $arrResponse = $this->apigator->setCurrentUri($URI)->getArrayResponse();    //default.
+        return $arrResponse = $this->apigator->setCurrentUri($URI)->getArrayResponse();    //default.
     }
     public function getCelsiusByCity($ciudad)
     {
@@ -47,6 +53,7 @@ class WeatherProviderAPI extends Controller implements WeatherProviderInterface
         }
 
         $arrResponse = $this->getMeasuresBycity($ciudad);
+
         try{
             $temperaturaActual =  $arrResponse['main']['temp'] - (float)273.15;
 

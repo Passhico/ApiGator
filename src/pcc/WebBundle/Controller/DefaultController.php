@@ -16,11 +16,11 @@ class DefaultController extends Controller
 
         $openWeatherAPI = new WeatherProviderAPI($apigator);
 
-        $alcantarillaMeasures = $openWeatherAPI->getMeasuresByCity();
+
+        $ciudad = 'Murcia';
+        $temperatura = $openWeatherAPI->getCelsiusByCity($ciudad);
 
 
-        $temperatura  = $alcantarillaMeasures;
-        $ciudad = 'tahiti';
         return $this->render('pccWebBundle:Default:index.html.twig',[
                 'ciudad' => $ciudad,
                 'temperatura' => $temperatura,

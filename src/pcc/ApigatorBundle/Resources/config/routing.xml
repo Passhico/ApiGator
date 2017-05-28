@@ -8,7 +8,7 @@
         <default key="_controller">pccApigatorBundle:test:index</default>
     </route>
 
-    <route id="pcc_apigator_test_open_weather_map" path="/test">
+    <route id="pcc_apigator_test_open_weather_map" path="/test/openweathermap">
         <default key="_controller">pccApigatorBundle:test:testApigatorService</default>
     </route>
 
