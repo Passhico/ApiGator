@@ -6,7 +6,6 @@
    \ \_\ \_\ \ ,__/\ \_\ \____/\ \__/.\_\\ \__\ \____/\ \_\
     \/_/\/_/\ \ \/  \/_/\/___/  \/__/\/_/ \/__/\/___/  \/_/
              \ \_\
-             
 A simple Symfony 2/3 
 (UriRequest-JsonResponse) API REST HttpClient 
 powered by CURL
