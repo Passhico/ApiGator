@@ -4,9 +4,16 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
+    <!--default Route-->
     <route id="pcc_web_homepage" path="/">
         <default key="_controller">pccWebBundle:Default:index</default>
     </route>
 
+    <!--Testea la la api de www.weatheronlinemap.com -->
+    <route id="pcc_web_get_weatheronlinemap_temp_by_city" path="/get-weatheronlinemap-temp-by-city/{city}/{countryCode}">
+        <default key="_controller">pccWebBundle:Default:getTempOfCity</default>
+        <default key="city">Alhama de Murcia</default>
+        <default key="countryCode">es</default>
+    </route>
 
 </routes>

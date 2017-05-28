@@ -4,6 +4,7 @@ namespace pcc\WebBundle\Controller;
 
 use pcc\WeatherBundle\pccWeatherBundle;
 use pcc\WeatherBundle\WeatherProviderAPI;
+use pcc\WebBundle\Entity\City;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,19 +12,20 @@ class DefaultController extends Controller
 {
     public function indexAction(Request $request)
     {
-        $apigator = $this->get('pcc_apigator.apigator');
+        return $this->redirectToRoute('pcc_web_get_weatheronlinemap_temp_by_city');
+    }
 
 
-        $openWeatherAPI = new WeatherProviderAPI($apigator);
+    /**
+     * TODO: TIPADO DE $city y $countrycode , usar paramconverter
+     * @param Request $request
+     */
+    public function getTempOfCityAction(Request $request, $city, $countryCode)
+    {
 
-
-        $ciudad = 'Murcia';
-        $temperatura = $openWeatherAPI->getCelsiusByCity($ciudad);
-
-
-        return $this->render('pccWebBundle:Default:index.html.twig',[
-                'ciudad' => $ciudad,
-                'temperatura' => $temperatura,
+        return $this->render('pccWebBundle:Default:renderTemperature.html.twig',[
+                'ciudad' => $city,
+                'temperatura' => $this->get('pcc_weather.weather_provider_api')->getCelsiusByCity($city),
             ]
             );
     }

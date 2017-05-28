@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <li class="temperatura"> La temperatura de {{ ciudad }} es ahora mismo de {{ temperatura }} grados Centígrados. </li>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        li.temperatura {
+            background-color: black;
+            color: green;
+        }
+    </style>
+{% endblock %}
+

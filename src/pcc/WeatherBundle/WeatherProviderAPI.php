@@ -22,13 +22,15 @@ class WeatherProviderAPI extends Controller implements WeatherProviderInterface
     const APIKEY = '18a7c380835ade989f795f3298ab2b09';
     private $apiKey;//si no se pasa parámetro, es la const eliminar este comentario cuando se haga el todo.
 
-    function __construct(ApiGator $apigator, $APIKEI = null)
+    function __construct()
     {
-        if (null === $APIKEI)
-        {
+
+
             $this->apiKey = self::APIKEY;
-        }
-        $this->apigator = $apigator;
+
+            //todo: preguntar esto
+        //$this->apigator = $this->get('pcc_apigator.apigator');
+        $this->apigator = new ApiGator();
     }
 
     public function getMeasuresBycity($ciudad = 'Alhama de Murcia')
