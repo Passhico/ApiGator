@@ -11,9 +11,13 @@
 
     <!--Testea la la api de www.weatheronlinemap.com -->
     <route id="pcc_web_get_weatheronlinemap_temp_by_city" path="/get-weatheronlinemap-temp-by-city/{city}/{countryCode}">
-        <default key="_controller">pccWebBundle:Default:getTempOfCity</default>
+        <default key="_controller">pccWebBundle:Default:getMeassuresOfCityUsingPccWeatherProvider</default>
         <default key="city">Alhama de Murcia</default>
         <default key="countryCode">es</default>
+    </route>
+
+    <route id="pcc_web_get_all_cities_from_doctrine" path="/get-all-cities-from-doctrine">
+        <default key="_controller">pccWebBundle:Default:getAllcitiesFromDoctrine</default>
     </route>
 
 </routes>

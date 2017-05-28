@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    <li class="temperatura"> La temperatura de {{ ciudad }} es ahora mismo de {{ temperatura }} grados Centígrados. </li>
+    <li class="temperatura"> Los datos obtenidos  de {{ ciudad }} son:  es ahora mismo de {{ dump(meassures) }}</li>
 {% endblock %}
 
 {% block stylesheets %}

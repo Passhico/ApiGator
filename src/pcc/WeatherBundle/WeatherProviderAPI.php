@@ -47,6 +47,12 @@ class WeatherProviderAPI extends Controller implements WeatherProviderInterface
        // $this->apigator->setCurrentUri($URI)->procesaResponseCon('dump');//elegant.
         return $arrResponse = $this->apigator->setCurrentUri($URI)->getArrayResponse();    //default.
     }
+
+    /**
+     * @param $ciudad
+     * @return float
+     * @throws WeatherProviderApiExceptionGetCelsiusOfNullCity
+     */
     public function getCelsiusByCity($ciudad)
     {
         if(null === $ciudad)
