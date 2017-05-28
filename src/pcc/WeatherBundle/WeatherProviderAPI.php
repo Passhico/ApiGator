@@ -8,7 +8,7 @@
 
 namespace pcc\WeatherBundle;
 
-use pcc\WeatherBundle\Exceptions\WeatherProviderApiExceptionGetCelsiusOfNullCitie;
+use pcc\WeatherBundle\Exceptions\WeatherProviderApiExceptionGetCelsiusOfNullCity;
 
 use pcc\ApigatorBundle\ApiGator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -43,7 +43,7 @@ class WeatherProviderAPI extends Controller implements WeatherProviderInterface
     {
         if(null === $ciudad)
         {
-            throw new WeatherProviderApiExceptionGetCelsiusOfNullCitie('getCelsiusByCity(NULL)');
+            throw new WeatherProviderApiExceptionGetCelsiusOfNullCity('getCelsiusByCity(NULL)');
         }
 
         $arrResponse = $this->getMeasuresBycity($ciudad);

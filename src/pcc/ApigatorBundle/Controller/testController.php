@@ -4,6 +4,7 @@ namespace pcc\ApigatorBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Route;
 
 class testController extends Controller
 {
@@ -19,25 +20,39 @@ class testController extends Controller
         return $this->render('pccApigatorBundle:Default:index.html.twig');
     }
 
+
     /**
-     * Devuelve el tiempo de Murcia y algunos dumps interesantes ^^
-     * @param Request $request
+
+     *
      */
-    public function testAction(\Symfony\Component\HttpFoundation\Request  $request)
+    public function testApigatorServiceAction(Request $request, $city = 'Alhama de Murcia', $countryCode = 'es')
     {
         $APIKEY = '18a7c380835ade989f795f3298ab2b09';
-        $URI = 'api.openweathermap.org/data/2.5/weather?q=Murcia,es&APPID='.$APIKEY;
 
-        $apiGatorService = $this->get('pcc_apigator.apigator');
+        //uri posicional.
+        $URI = "api.openweathermap.org/data/2.5/weather?q={$city},{$countryCode}&APPID={$APIKEY}";
+        dump("enviando Request URI: {$URI}");
 
-        $apiGatorService->setCurrentUri($URI);
-        $decodedJson = $apiGatorService->getJsonDecodedCurlResponse();
+        dump($this->get('pcc_apigator.apigator'));//antes de la llamada
 
-        dump($decodedJson);
-        dump($this->get('pcc_apigator.apigator'));
+        $this->get('pcc_apigator.apigator')->setCurrentUri($URI)->procesaResponseCon('dump');//elegant.
+        dump($arrResponse = $this->get('pcc_apigator.apigator')->setCurrentUri($URI)->getArrayResponse());    //default.
+
+        try{
+            $temperaturaActual =  $arrResponse['main']['temp'] - (float)273.15;
+
+        } catch (\Exception $exception)
+        {
+            $temperaturaActual = "esta response no tiene datos de temperatura correctos";
+        }
+
+
+        dump($temperaturaActual);
+        dump($this->get('pcc_apigator.apigator'));//tras la llamada.
+
+        //de lo que va el curso:
         dump(self::get('service_container'));
         die();
-
     }
 
 }

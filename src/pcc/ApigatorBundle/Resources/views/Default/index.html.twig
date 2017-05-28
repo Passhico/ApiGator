@@ -1,1 +1,42 @@
-te pille.
+{% extends '::base.html.twig' %}
+
+
+{% block body %}
+    <div class="description">
+        <h1>ApiGatorBundle</h1> ofrece un servicio de cliente genérico para APIs REST <br>
+        Usando el cliente más <h2>C00RL</h2>
+
+
+    </div>
+    <a href="https://github.com/Passhico/ApigatorBundle">Abrir en YITJAP</a>
+
+    <a href="{{ path('pcc_apigator_test_open_weather_map') }}">Test a :  api.openweathermap.org</a>
+{% endblock body %}
+
+
+{% block stylesheets %}
+    <style>
+        div.description {
+            background-color: black;
+            color: darkgreen;
+            margin: 20px 0 20px 0;
+            padding: 20px;
+        }
+        h1 {
+            color: magenta;
+        }
+        h2 {
+            color:darkmagenta;
+            font-size: smaller;
+        }
+        a {
+           background-color: darkgreen;
+            color: black;
+            border: black;
+        }
+        body {
+            background-color: dimgrey;
+        }
+
+    </style>
+{% endblock stylesheets %}

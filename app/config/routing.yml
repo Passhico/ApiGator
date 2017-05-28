@@ -1,6 +1,6 @@
 pcc_web:
     resource: "@pccWebBundle/Resources/config/routing.xml"
-    prefix:   /
+    prefix:   /web
 
 pcc_weather:
     resource: "@pccWeatherBundle/Resources/config/routing.xml"
