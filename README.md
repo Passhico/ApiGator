@@ -2,7 +2,18 @@ ApiGator
 --------
 A simple Symfony 2/3 
 (UriRequest-JsonResponse) API REST HttpClient 
-powered by CURL
+powered by CURL (only GET method 4 now)
 
-Proporciona un servicion general a los controladores a través
-del 
+Offers a Symfony service to get data from all type of 
+API REST using Curl but without worry about it :)
+ 
+1. Get 1 Apigator , is free :
+
+    $apigator = $this->get('apigator');
+2. Send Request:
+  
+    Set the uri $apigator->setUri("www.yourApi.com/apikey/resource');
+3. Get Response:
+    $apigator->getArrayResponse()//or json or other types.
+
+
