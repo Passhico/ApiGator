@@ -5,6 +5,7 @@ namespace pcc\WebBundle\Controller;
 use pcc\WeatherBundle\pccWeatherBundle;
 use pcc\WeatherBundle\WeatherProviderAPI;
 use pcc\WebBundle\Entity\City;
+use pcc\WebBundle\Entity\Measure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,8 +14,10 @@ class DefaultController extends Controller
 {
     public function indexAction(Request $request)
     {
-        //return $this->redirectToRoute('pcc_web_get_weatheronlinemap_temp_by_city');
+        return $this->redirectToRoute('pcc_web_get_weatheronlinemap_temp_by_city');
         return $this->redirectToRoute('pcc_web_get_all_cities_from_doctrine');
+        return $this->redirectToRoute('pcc_web_get_all_measures_from_doctrine');
+
 
     }
 
@@ -39,10 +42,19 @@ class DefaultController extends Controller
      */
   public function getAllcitiesFromDoctrineAction(Request  $request)
   {
-
-         $allCities = $this->get('doctrine')->getManager()->getRepository(City::class)->findAll();
+       $allCities = $this->get('doctrine')->getManager()->getRepository(City::class)->findAll();
        dump($allCities);
        die();
-
   }
+    /**
+     * @param Request $request
+     */
+  public function getAllMeasuresFromDoctrineAction(Request  $request)
+  {
+       $allMeassures = $this->get('doctrine')->getManager()->getRepository(Measure::class)->findAll();
+       dump($allMeassures);
+       die();
+  }
+
+
 }

@@ -12,6 +12,7 @@ use pcc\WeatherBundle\Exceptions\WeatherProviderApiExceptionGetCelsiusOfNullCity
 
 use pcc\ApigatorBundle\ApiGator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 class WeatherProviderAPI extends Controller implements WeatherProviderInterface
@@ -25,24 +26,22 @@ class WeatherProviderAPI extends Controller implements WeatherProviderInterface
     function __construct()
     {
 
+        $this->apiKey = self::APIKEY;
 
-            $this->apiKey = self::APIKEY;
-
-            //todo: preguntar esto
+        //todo: preguntar esto
         //$this->apigator = $this->get('pcc_apigator.apigator');
         $this->apigator = new ApiGator();
     }
 
-    public function getMeasuresBycity($ciudad = 'Alhama de Murcia')
+    public function getMeasuresBycity($ciudad = null)
     {
-
-        //uri posicional.
+        if(null === $ciudad) {
+            throw new Exception('getMeasuresBycity(null)');
+        }
+         // Usar el  OpenWeatherMapUriBuilder es lo mismo que dejar esta línea ... KISS...
         // $URI = "api.openweathermap.org/data/2.5/weather?q={$ciudad},es&APPID={$this->apiKey}";
-
         $uribuilder = new OpenWeatherMapUriBuilder();
-        $URI = $uribuilder->setApikey($this->apiKey)->setCiudad('Librilla')->getUri();
-
-
+        $URI = $uribuilder->setApikey($this->apiKey)->setCiudad($ciudad)->getUri();
 
        // $this->apigator->setCurrentUri($URI)->procesaResponseCon('dump');//elegant.
         return $arrResponse = $this->apigator->setCurrentUri($URI)->getArrayResponse();    //default.

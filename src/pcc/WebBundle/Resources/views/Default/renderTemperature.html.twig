@@ -1,7 +1,18 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    <li class="temperatura"> Los datos obtenidos  de {{ ciudad }} son:  es ahora mismo de {{ dump(meassures) }}</li>
+    {{ dump(meassures) }}
+    <li class="temperatura">
+        La temperatura actual de {{ ciudad }} es de {{ meassures.main.temp - 273.15 }} ºC
+        {% set nudos = meassures.wind.speed * 0.5399568034557235 %}
+        y el viento tiene una velocidad de media de  {{ nudos }} nudos
+        en general ... {{ meassures.weather.0.main }} .
+        El sol sale a las {{ meassures.sys.sunrise }}
+        y se pone a las {{ meassures.sys.sunset }}
+
+
+
+    </li>
 {% endblock %}
 
 {% block stylesheets %}

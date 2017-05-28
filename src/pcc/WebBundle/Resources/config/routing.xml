@@ -19,5 +19,8 @@
     <route id="pcc_web_get_all_cities_from_doctrine" path="/get-all-cities-from-doctrine">
         <default key="_controller">pccWebBundle:Default:getAllcitiesFromDoctrine</default>
     </route>
+    <route id="pcc_web_get_all_measures_from_doctrine" path="/get-all-measures-from-doctrine">
+        <default key="_controller">pccWebBundle:Default:getAllMeasuresFromDoctrine</default>
+    </route>
 
 </routes>
