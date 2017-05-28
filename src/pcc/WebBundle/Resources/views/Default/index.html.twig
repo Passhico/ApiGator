@@ -4,5 +4,18 @@
 {% endblock title %}
 
 {% block body %}
-    La temperatura de {{ ciudad }} ahora mismo es {{ temperatura }}
+    <li class="salida_api"> La temperatura de {{ ciudad }} ahora mismo es {{ temperatura }} </li>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            background-color: dimgrey;
+        }
+        li.salida_api {
+            background-color: black;
+            color: #6b9311;
+        }
+    </style>
+
 {% endblock %}
