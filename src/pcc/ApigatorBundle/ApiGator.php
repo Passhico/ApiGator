@@ -1,4 +1,7 @@
 <?php
+/**
+ *
+ */
 
 
 namespace pcc\ApigatorBundle;
@@ -12,7 +15,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
      * Crea una Conexión con "curl.php" a una API REST, tras ello pone a
      * disposición del usuario , tanto la response como un método específico
      * para procesarla según se prefiera.
-     *
+     * @author Pascual Muñoz Galián <pascual.munoz@pccomponentes.com>
      * @see http://stackoverflow.com/questions/2140419/how-do-i-make-a-request-using-http-basic-authentication-with-php-curl
      */
     class ApiGator {
