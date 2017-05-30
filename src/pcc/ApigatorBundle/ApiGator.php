@@ -161,17 +161,6 @@ use Symfony\Component\Config\Definition\Exception\Exception;
             return $this;
         }
 
-        public function setUsername($Username) {
-            $this->Username = $Username;
-            return $this;
-        }
-
-        public function setPassword($Password) {
-            $this->Password = $Password;
-            return $this;
-        }
-
-
 
         /**
          * El resource que devuelve El curl_init(uri)
