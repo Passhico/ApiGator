@@ -7,7 +7,7 @@
             "email": "pascual.munoz@pccomponentes.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "type": "project",
     "autoload": {
         "psr-4": {
