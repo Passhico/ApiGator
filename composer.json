@@ -1,5 +1,5 @@
 {
-    "name": "passh/cursosymfony",
+    "name": "pascualmg/ApigatorBundle",
     "license": "proprietary",
     "type": "project",
     "autoload": {
