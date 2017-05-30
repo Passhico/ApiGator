@@ -5,7 +5,7 @@
         {
             "name": "Pascual Muñoz Galián",
             "email": "pascual.munoz@pccomponentes.com"
-        }
+        },
     "license": "gnu",
     "type": "project",
     "autoload": {
