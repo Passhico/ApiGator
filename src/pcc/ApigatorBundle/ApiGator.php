@@ -4,6 +4,8 @@
 namespace pcc\ApigatorBundle;
 
 use pcc\ApigatorBundle\Exception\NullHeadersApigatorException;
+use pcc\ApigatorBundle\Exception\NullMethodApigatorException;
+use pcc\ApigatorBundle\Exception\NullUriApigatorException;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
@@ -63,7 +65,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
          * @var resource
          * @see http://php.net/manual/es/resource.php
          */
-        private $Ch;
+        private $ch;
 
         /**
          * Lo que nos devuelve Curl cuando le hacemos
@@ -77,7 +79,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
          * @var type La uri de la api.
          * @see https://www.youtube.com/watch?v=VOakvXIVUvo
          */
-        private $currentUri;
+        private $uri;
 
         /**
          * Headers personalizadas de las Request .
@@ -148,6 +150,10 @@ use Symfony\Component\Config\Definition\Exception\Exception;
          * @return $this
          */
         public function setHeaders($headers) {
+            if (null === $headers)
+            {
+                throw new NullHeadersApigatorException();
+            }
             $this->headers = $headers;
             return $this;
         }
@@ -171,7 +177,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
          * @see http://php.net/manual/es/resource.php
          */
         public function getCh() {
-            return $this->Ch;
+            return $this->ch;
         }
 
         /**
@@ -180,9 +186,6 @@ use Symfony\Component\Config\Definition\Exception\Exception;
          *
          */
         public function getCurlResponse() {
-
-            //core
-            $this->curlINIT($this->getCurrentUri());
             $this->curlSETOPTS();
             return $this->curlEXEC();
         }
@@ -205,23 +208,19 @@ use Symfony\Component\Config\Definition\Exception\Exception;
             return json_decode($this->getCurlResponse());
         }
 
-        public function getCurrentUri() {
-            return $this->currentUri;
+        public function getUri() {
+            return $this->uri;
         }
 
         public function setUri($uri) {
-            $this->curlINIT($uri);
-            $this->curlSETOPTS();
+            if (null === $uri){
+                throw new NullUriApigatorException();
+            }
+
+          $this->uri = $uri;
             return $this;
         }
 
-        public function getUsername() {
-            return $this->Username;
-        }
-
-        public function getPassword() {
-            return $this->Password;
-        }
 
 
         public  function getDefaultHeaders()
@@ -233,10 +232,14 @@ use Symfony\Component\Config\Definition\Exception\Exception;
             return $header;
         }
 
+        /**
+         * Se deja como Alias de la Real por mantener el init-setopts-exec
+         * @param $uri
+         * @return resource
+         */
         private function curlINIT($uri) {
-            $this->Ch = curl_init($uri);
-            $this->currentUri = $uri; //aquí se guarda currentUri , que no es la misma que la real de curl , la emula.
-            return $this->Ch;
+
+            return $this->ch = curl_init($uri); //aquí se guarda currentUri , que no es la misma que la real de curl , la emula.
         }
 
         /**
@@ -250,17 +253,26 @@ use Symfony\Component\Config\Definition\Exception\Exception;
          */
         private function curlSETOPTS() {
 
-            if (null === $this->getHeaders())
+            //si no tenemos la uri no tenemos nada.
+            if ( null === $this->getUri())
             {
-                //todo: Crear clase Excepcion
+                throw new NullUriApigatorException();
+            } else { //podemos empezar...
+                $this->curlINIT($this->getUri());
+            }
+
+
+            if ( null === $this->getHeaders())
+            {
                 throw new NullHeadersApigatorException();
             }
-            if(isset($this->headers)) {
-                curl_setopt($this->Ch, CURLOPT_HTTPHEADER, $this->headers);
-            } else {
-                $this->headers = $this->getDefaultHeaders();
-                curl_setopt($this->Ch, CURLOPT_HTTPHEADER, $this->headers);
+
+            if (null === $this->getMethod())
+            {
+                throw new NullMethodApigatorException();
             }
+
+            curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->getHeaders());
 
 
 
@@ -274,33 +286,33 @@ use Symfony\Component\Config\Definition\Exception\Exception;
                      	$header[] = 'Authorization: ebec63f521baf484da13a550a111e5d6';
              */
 
-            curl_setopt($this->Ch, CURLOPT_HEADER, 0); //no queremos el header en la response.
+            curl_setopt($this->ch, CURLOPT_HEADER, 0); //no queremos el header en la response.
             //curl_setopt($this->Ch, CURLOPT_USERPWD, $username . ":" . $password);
-            curl_setopt($this->Ch, CURLOPT_TIMEOUT, 50);
+            curl_setopt($this->ch, CURLOPT_TIMEOUT, 50);
 
-            curl_setopt($this->Ch, CURLOPT_CUSTOMREQUEST, $this->method); //gracias stackoverflow
+            curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $this->method); //gracias stackoverflow
 
-            curl_setopt($this->Ch, CURLOPT_POST, true);
+            curl_setopt($this->ch, CURLOPT_POST, true);
             //todo: parametrizame (payload)
             //  curl_setopt($this->Ch, CURLOPT_POSTFIELDS, 'key: value'); payload
-            curl_setopt($this->Ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
         }
 
         private function curlEXEC() {
             //miCurlExec() obtenemos response la dejamos cargada
-            $this->CurlResponse = curl_exec($this->Ch);
+            $this->CurlResponse = curl_exec($this->ch);
 
             if ($this->CurlResponse === false) {
-                $info = curl_error($this->Ch);
-                curl_close($this->Ch) && die("Error en curl_exec(): " . var_export($info));
+                $info = curl_error($this->ch);
+                curl_close($this->ch) && die("Error en curl_exec(): " . var_export($info));
             }
             return $this->CurlResponse;
         }
 
         public function __destruct() {
-            if ($this->Ch !== NULL) {
+            if ($this->ch !== NULL) {
                 try {
-                    curl_close($this->Ch);
+                    curl_close($this->ch);
                 } catch (ContextErrorException $e) {
                     //todo: quitar echo
                     echo "Apigator no puede Cerrar el Resource de Curl";
@@ -328,7 +340,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
          * el json como el pamametro que recibe.
          */
         public function procesaResponseCon($f = 'print_r') {
-            $f($this->CurlResponse = $this->curlEXEC());
+            $f($this->getCurlResponse());
         }
 
     }
