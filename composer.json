@@ -1,6 +1,6 @@
 {
     "name": "pascualmg/ApigatorBundle",
-    "description": "request/response API REST CURL client"
+    "description": "request/response API REST CURL client",
     "authors": [
         {
             "name": "Pascual Muñoz Galián",
