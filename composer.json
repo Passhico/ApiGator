@@ -1,7 +1,7 @@
 {
     "name": "pascualmg/ApigatorBundle",
     "description": "request/response API REST CURL client",
-    "authors": [
+    "authors": 
         {
             "name": "Pascual Muñoz Galián",
             "email": "pascual.munoz@pccomponentes.com"
