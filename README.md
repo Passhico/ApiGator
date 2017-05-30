@@ -15,5 +15,13 @@ API REST using Curl but without worry about it :)
     Set the uri $apigator->setUri("www.yourApi.com/apikey/resource');
 3. Get Response:
     $apigator->getArrayResponse()//or json or other types.
+    
+Installation
+------------
+include on require of your composer: 
+
+"pascualmg/apigator": "dev-master"
+
+Then add the bundle on your appkernel.php
 
 
