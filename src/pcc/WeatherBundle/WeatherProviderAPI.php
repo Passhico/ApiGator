@@ -44,7 +44,7 @@ class WeatherProviderAPI extends Controller implements WeatherProviderInterface
         $URI = $uribuilder->setApikey($this->apiKey)->setCiudad($ciudad)->getUri();
 
        // $this->apigator->setCurrentUri($URI)->procesaResponseCon('dump');//elegant.
-        return $arrResponse = $this->apigator->setCurrentUri($URI)->getArrayResponse();    //default.
+        return $arrResponse = $this->apigator->setUri($URI)->getArrayResponse();    //default.
     }
 
     /**

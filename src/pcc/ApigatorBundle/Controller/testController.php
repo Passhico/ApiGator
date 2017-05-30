@@ -49,8 +49,8 @@ class testController extends Controller
 
         dump($this->get('pcc_apigator.apigator'));//antes de la llamada
 
-        $this->get('pcc_apigator.apigator')->setCurrentUri($URI)->procesaResponseCon('dump');//elegant.
-        dump($arrResponse = $this->get('pcc_apigator.apigator')->setCurrentUri($URI)->getArrayResponse());    //default.
+        $this->get('pcc_apigator.apigator')->setUri($URI)->procesaResponseCon('dump');//elegant.
+        dump($arrResponse = $this->get('pcc_apigator.apigator')->setUri($URI)->getArrayResponse());    //default.
 
         try{
             $temperaturaActual =  $arrResponse['main']['temp'] - (float)273.15;

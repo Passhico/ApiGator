@@ -3,6 +3,7 @@
 
 namespace pcc\ApigatorBundle;
 
+use pcc\ApigatorBundle\Exception\NullHeadersApigatorException;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
@@ -15,21 +16,45 @@ use Symfony\Component\Config\Definition\Exception\Exception;
     class ApiGator {
 
         /**
+         * Los VERBOS de una API REST
+         * por defecto GET.
+         */
+        CONST METHOD_GET = 'GET';
+        CONST METHOD_POST = 'POST';
+        CONST METHOD_PUT = 'PUT';
+        CONST METHOD_PATCH = 'PATCH';
+
+        /**
          * ApiGator constructor.
          *
          * @param null $uri
-         * @param null $httpCustomHeaders
+         * @param null $httpHeaders
          */
-        public function __construct($uri = null , $httpCustomHeaders = null) {
-            $this->setCurrentUri($uri);
-            if(isset($httpCustomHeaders)){
-                $this->httpHeader = $httpCustomHeaders;
+        public function __construct($uri = null , $httpHeaders = null, $method = null) {
+
+
+            if(null === $uri)
+            {
+                /**
+                 * Es posible crear un Apigator sin $uri inicial
+                 * aunque no es aconsejado se permite.
+                 */
             } else {
-                $this->httpHeader = $this->getDefaultHeaders();
+                $this->setUri($uri);
             }
 
-            $this->curlINIT($this->currentUri);
-            $this->curlSETOPTS();
+            if(null === $httpHeaders){
+                $this->headers = $this->getDefaultHeaders();
+            } else {
+                $this->setHeaders($httpHeaders);
+            }
+
+            if(null === $method) {
+                $this->setMethod(self::METHOD_GET);
+            } else {
+                $this->setMethod($method);
+            }
+
         }
 
         /**
@@ -58,11 +83,72 @@ use Symfony\Component\Config\Definition\Exception\Exception;
          * Headers personalizadas de las Request .
          * @var array Con las http headers oficiales.
          */
-        private $httpHeader;
+        private $headers;
 
-        public function setHttpHeader($httpHeader) {
-            $this->httpHeader = $httpHeader;
-            $this->curlSETOPTS();
+        /**
+         * @return array
+         */
+        public function getHeaders()
+        {
+            return $this->headers;
+        }
+
+        /**
+         * REST method : GET  , PUT , POST , PATCH , ETC
+         * @var string
+         */
+        private $method;
+
+        /**
+         * @return string
+         */
+        public function getMethod(): string
+        {
+            return $this->method;
+        }
+
+        /**
+         * @param string $method
+         * @return ApiGator
+         */
+        public function setMethod(string $method): ApiGator
+        {
+            $this->method = $method;
+
+            return $this;
+        }
+
+        /**
+         * Normalmente el array a enviar con el method POST.
+         * @var array
+         */
+        private $payload;
+
+        /**
+         * @return array
+         */
+        public function getPayload(): array
+        {
+            return $this->payload;
+        }
+
+        /**
+         * @param array $payload
+         * @return ApiGator
+         */
+        public function setPayload(array $payload): ApiGator
+        {
+            $this->payload = $payload;
+
+            return $this;
+        }
+
+        /**
+         * @param $headers
+         * @return $this
+         */
+        public function setHeaders($headers) {
+            $this->headers = $headers;
             return $this;
         }
 
@@ -94,12 +180,11 @@ use Symfony\Component\Config\Definition\Exception\Exception;
          *
          */
         public function getCurlResponse() {
-            if (isset($this->currentUri)) {
-                return $this->curlEXEC();
-            } else {
-              //  throw new \Exception('No deberías intentar obtener una response sin una URI , geller.');
-            }
 
+            //core
+            $this->curlINIT($this->getCurrentUri());
+            $this->curlSETOPTS();
+            return $this->curlEXEC();
         }
 
         /**
@@ -124,7 +209,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
             return $this->currentUri;
         }
 
-        public function setCurrentUri($uri) {
+        public function setUri($uri) {
             $this->curlINIT($uri);
             $this->curlSETOPTS();
             return $this;
@@ -154,14 +239,30 @@ use Symfony\Component\Config\Definition\Exception\Exception;
             return $this->Ch;
         }
 
+        /**
+         * Se encarga de settear las opciones del CURL resource y además
+         * de verificar que todos los parámetros necesarios estén correctos
+         * en caso de detectar cualquier cosa rara lanzará una excepción
+         *
+         * precondicion : $this->method está inicializado .
+         *
+         * @throws NullHeadersApigatorException
+         */
         private function curlSETOPTS() {
 
-            if(isset($this->httpHeader)) {
-                curl_setopt($this->Ch, CURLOPT_HTTPHEADER, $this->httpHeader);
-            } else {
-                $this->httpHeader = $this->getDefaultHeaders();
-                curl_setopt($this->Ch, CURLOPT_HTTPHEADER, $this->httpHeader);
+            if (null === $this->getHeaders())
+            {
+                //todo: Crear clase Excepcion
+                throw new NullHeadersApigatorException();
             }
+            if(isset($this->headers)) {
+                curl_setopt($this->Ch, CURLOPT_HTTPHEADER, $this->headers);
+            } else {
+                $this->headers = $this->getDefaultHeaders();
+                curl_setopt($this->Ch, CURLOPT_HTTPHEADER, $this->headers);
+            }
+
+
 
             /*
              * Ojo, $this->httpHeader no puede ser null nunca o lanzaría excepción.
@@ -173,16 +274,11 @@ use Symfony\Component\Config\Definition\Exception\Exception;
                      	$header[] = 'Authorization: ebec63f521baf484da13a550a111e5d6';
              */
 
-
-
-
-
-
             curl_setopt($this->Ch, CURLOPT_HEADER, 0); //no queremos el header en la response.
             //curl_setopt($this->Ch, CURLOPT_USERPWD, $username . ":" . $password);
             curl_setopt($this->Ch, CURLOPT_TIMEOUT, 50);
 
-            curl_setopt($this->Ch, CURLOPT_CUSTOMREQUEST, "GET"); //gracias stackoverflow
+            curl_setopt($this->Ch, CURLOPT_CUSTOMREQUEST, $this->method); //gracias stackoverflow
 
             curl_setopt($this->Ch, CURLOPT_POST, true);
             //todo: parametrizame (payload)
