@@ -1,6 +1,12 @@
 {
     "name": "pascualmg/ApigatorBundle",
-    "license": "proprietary",
+    "description": "request/response API REST CURL client"
+    "authors": [
+        {
+            "name": "Pascual Muñoz Galián",
+            "email": "pascual.munoz@pccomponentes.com"
+        }
+    "license": "gnu",
     "type": "project",
     "autoload": {
         "psr-4": {
