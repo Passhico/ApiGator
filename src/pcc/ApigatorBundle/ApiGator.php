@@ -8,6 +8,7 @@ namespace pcc\ApigatorBundle;
 
 use pcc\ApigatorBundle\Exception\NullHeadersApigatorException;
 use pcc\ApigatorBundle\Exception\NullMethodApigatorException;
+use pcc\ApigatorBundle\Exception\NullPayloadApigatorException;
 use pcc\ApigatorBundle\Exception\NullUriApigatorException;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
@@ -143,6 +144,9 @@ use Symfony\Component\Config\Definition\Exception\Exception;
          */
         public function setPayload(array $payload): ApiGator
         {
+            if (null === $payload){
+                throw new NullPayloadApigatorException();
+            }
             $this->payload = $payload;
 
             return $this;
