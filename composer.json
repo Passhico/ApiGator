@@ -1,6 +1,6 @@
 {
-    "name": "pascualmg/ApigatorBundle",
-    "description": "request/response API REST CURL client",
+    "name": "pascualmg/apigator",
+    "description": "Symfony Service Request/Response API REST CURL client",
     "authors": 
         {
             "name": "Pascual Muñoz Galián",
