@@ -14,7 +14,7 @@
     </services>
     -->
 <services>
-    <service id="pcc_apigator.apigator" class="pcc\ApigatorBundle\ApiGator">
+    <service public="true" id="pcc_apigator.apigator" class="pcc\ApigatorBundle\ApiGator" >
 
     </service>
 </services>

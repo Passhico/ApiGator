@@ -7,7 +7,7 @@
 
     <services>
         <service class="pcc\WeatherBundle\WeatherProviderAPI" id="pcc_weather.weather_provider_api">
-
+            <argument id="pcc_apigator.apigator" type="service"/>
         </service>
     </services>
 </container>

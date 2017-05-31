@@ -8,6 +8,7 @@
 
 namespace pcc\WeatherBundle;
 
+use pcc\ApigatorBundle\Exception\ApigatorException;
 use pcc\WeatherBundle\Exceptions\WeatherProviderApiExceptionGetCelsiusOfNullCity;
 
 use pcc\ApigatorBundle\ApiGator;
@@ -23,14 +24,14 @@ class WeatherProviderAPI extends Controller implements WeatherProviderInterface
     const APIKEY = '18a7c380835ade989f795f3298ab2b09';
     private $apiKey;//si no se pasa parámetro, es la const eliminar este comentario cuando se haga el todo.
 
-    function __construct()
+    function __construct(Apigator $apiGator)
     {
 
         $this->apiKey = self::APIKEY;
 
         //todo: preguntar esto
         //$this->apigator = $this->get('pcc_apigator.apigator');
-        $this->apigator = new ApiGator();
+        $this->apigator = $apiGator;
     }
 
     public function getMeasuresBycity($ciudad = null)

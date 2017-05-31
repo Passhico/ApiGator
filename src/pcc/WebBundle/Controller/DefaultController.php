@@ -15,8 +15,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
 
-        $this->get('pcc_apigator.apigator')->setUri("www.pccomponentes.com")->procesaResponseCon('dump');
-        die();
+
         return $this->redirectToRoute('pcc_web_get_weatheronlinemap_temp_by_city');
         return $this->redirectToRoute('pcc_web_get_all_cities_from_doctrine');
         return $this->redirectToRoute('pcc_web_get_all_measures_from_doctrine');
